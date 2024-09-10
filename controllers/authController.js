@@ -68,63 +68,41 @@ const postLogin = async (req, res) => {
 //2.Register API: http://localhost:3000/api/auth/register
 const postRegister = async (req, res) => {
     const { title, first_name, last_name, email, password, address } = req.body
-    //1.Check email exits ? if Yess --- Stop execution
-    const sql = "SELECT * FROM users WHERE email=?"
-    db.query(sql, [email])
-        .then((result) => {
-            if (result[0] && result[0][0] && result[0][0].id) {
-                // return res.status(201).json({
-                //     'message': true,
-                //     'data':result[0]
-                // })
-                res.redirect('/register')
-            }
-            else {
-                //2.Hash password
-                const hashRounds = 10
-                bcrypt.genSalt(hashRounds, async (err, salt) => {
-                    if (err) {
-                        return res.status(500).send('Unable to generate Salt')
-                    }
-                    bcrypt.hash(password, salt, async (err, hash) => {
-                        // Store hash in your password DB.
-                        if (err) {
-                            return res.status(500).send('Unable to create Hash')
-                        }
-                        // return res.send('>>>' + hash)
-                        // 3.Store hash in your password DB
-                        const sql = 'INSERT INTO users(title, first_name, last_name, role, email, password, address) VALUES (?,?,?,?,?,?,?)';
-                        const values = [title, first_name, last_name, 'User', email, hash, address]
-                        await db.query(sql, values)
-                            .then((result) => {
-                                console.log(hash)
-                                return res.status(201).json({
-                                    'message': true,
-                                    'first_name': first_name,
-                                    'last_name': last_name,
-                                    'data': hash
-                                })
-                                // return res.redirect("/login")
-                            }).catch((err) => {
-                                if (!res.headersSent) {
-                                    return res.status(500).send(err)
-                                }
-                            });
-                    });
-                });
-            }
-        }).catch((err) => {
-            console.log('ERROR check mail', err)
-            return
-        });
+    //1.Check fielsd empty ?
+    if (!title, !first_name, !last_name || !email || !password) {
+        // return res.status(400).json({ status: false, message: 'All fields are required.' })
+        return res.redirect('/api/auth/register')
+    }
 
-
+    //2.Check Email already exists ?
+    const userExists = await User.findUserEmail(email);
+    if (userExists) {
+        // return res.status(409).json({ status: false, message: 'User or Email already exists.' })
+        return res.redirect('/api/auth/register')
+    }
+    //3.Hash password
+    const hashRounds = 10
+    const salt = await bcrypt.genSaltSync(hashRounds)
+    const hash = await bcrypt.hashSync(password, salt)
+    try {
+        const role = 'User'
+        await User.createUser(title, first_name, last_name, role, email, hash, address)
+        // return res.status(201).json({ status: true, message: 'User created successfully.', data: req.body })
+        return res.redirect('/api/auth/login')
+    } catch (err) {
+        // return res.status(500).json({ error: err.message })
+        return res.redirect('/api/auth/register')
+    }
 }
 
 //3.Get Test (Protected) API:http://localhost:3000/api/auth/test
 const getTest = (req, res) => {
-    console.log(req.role)
-    return res.status(200).json({ status: true, message: 'Welcome to the test page' })
+    try {
+        console.log(req.role)
+        return res.status(200).json({ status: true, message: 'Welcome to the test page' })
+    } catch (error) {
+        return res.status(400).render('dashboard', { error: 'An error occurred' })
+    }
 }
 
 //4.Get Test (Protected) API:http://localhost:3000/api/auth/dashboard
