@@ -1,11 +1,10 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 const db = require('../config/db')
+const User = require('../models/userModel')
 
-//Login API: http://localhost:3000/api/auth/login
+//1.Login API: http://localhost:3000/api/auth/login
 const postLogin = async (req, res) => {
-    // const email = req.body.email
-    // const password = req.body.password
     const { email, password } = req.body
     try {
         const sql = 'SELECT * FROM users WHERE email = ?';
@@ -17,7 +16,7 @@ const postLogin = async (req, res) => {
             // return res.status(401).json({
             //     state: false, massege: "Invalid username or password"
             // })
-            return res.redirect('/login')
+            return res.redirect('/api/auth/login')
         }
 
         const user = rows[0]
@@ -29,7 +28,7 @@ const postLogin = async (req, res) => {
             // return res.status(401).json({
             //     state: false, massege: "Invalid username or password.",
             // })
-            return res.redirect('/login')
+            return res.redirect('/api/auth/login')
         }
 
         const name = user.first_name + " " + user.last_name
@@ -44,23 +43,29 @@ const postLogin = async (req, res) => {
             ),
             httpOnly: true
         }
-        res.cookie('accessToken', token, cookieOption)
+        await res.cookie('accessToken', token, cookieOption)
+
+        if (payload.role === 'Admin') {
+            return res.status(200).redirect('/api/auth/dashboard')
+        } else if (payload.role === 'User') {
+            return res.status(200).redirect('/api/auth/users-page')
+        }
         // return res.status(200).json({
         //     state: true,
         //     massege: "You have successfully logged in.",
         //     data: payload,
         //     token: token
         // })
-        return res.status(200).redirect('/api/auth/dashboard')
+
     } catch (error) {
         console.log(error.message)
         // return res.status(500).json({ status: true, message: "Server error" })
-        return res.redirect('/login')
+        return res.redirect('/api/auth/login')
     }
 
 }
 
-//Register API: http://localhost:3000/api/auth/register
+//2.Register API: http://localhost:3000/api/auth/register
 const postRegister = async (req, res) => {
     const { title, first_name, last_name, email, password, address } = req.body
     //1.Check email exits ? if Yess --- Stop execution
@@ -116,22 +121,27 @@ const postRegister = async (req, res) => {
 
 }
 
-//Get Test (Protected) API:http://localhost:3000/api/auth/test
+//3.Get Test (Protected) API:http://localhost:3000/api/auth/test
 const getTest = (req, res) => {
     console.log(req.role)
     return res.status(200).json({ status: true, message: 'Welcome to the test page' })
 }
 
-//Get Test (Protected) API:http://localhost:3000/api/auth/dashboard
-const getDashboard = (req, res) => {
-    console.log(req.role)
-    // return res.status(200).json({ status: true, message: 'Welcome to the dashboard page' })
-    return res.status(200).render('dashboard/index.ejs')
+//4.Get Test (Protected) API:http://localhost:3000/api/auth/dashboard
+const getDashboard = async (req, res) => {
+    try {
+        const users = await User.findUserById(req.userId)
+        console.log(users)
+        return res.status(200).render('dashboard/index.ejs', { users })
+    } catch (error) {
+        console.lohg(error)
+        return res.status(400).render('dashboard', { error: 'An error occurred' })
+    }
 }
 
 const logout = (req, res) => {
     res.clearCookie('accessToken')
-    return res.status(200).redirect('/login')
+    return res.status(200).redirect('/api/auth/login')
 }
 
 module.exports = { postLogin, postRegister, getTest, getDashboard, logout }
