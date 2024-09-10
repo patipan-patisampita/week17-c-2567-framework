@@ -1,17 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <%- include('./partials/admin-head') %>
-    <title>Dashboard Blog Page</title>
+        <title>Admin Dashboard</title>
 </head>
 
 <body>
     <%- include('./partials/admin-navbar') %>
-    <h1 style="text-align: center;">Welcome to the Dashboard Blog Page</h1>
-    <p style="text-align: center;">
-        <a href="/api/auth/logout">ออกจากระบบ</a>
-    </p>
+    <%- include('./partials/admin-card') %>
     <%- include('./partials/admin-script') %>
 </body>
 
