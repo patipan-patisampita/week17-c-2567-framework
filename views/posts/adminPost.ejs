@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../dashboard/partials/admin-head') %>
+    <title>Admin Dashboard</title>
+</head>
+
+<body>
+    <%- include('../dashboard/partials/admin-navbar') %>
+        <div class="container mt-3 mb-5 sarabun-regular">
+        
+            <div class="row mb-5">
+                <div class="col-md-10 mx-auto">
+                    <div class="card shadow">
+                        <img src="../images/king.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h4 class="card-title"><span
+                                    class="badge rounded-pill text-white text-bg-primary">คำถวายสัตย์ปฏิญาณ</span></h4>
+                            <p class="card-text">
+                                ข้าพระพุทธเจ้า ขอถวายสัตย์ปฏิญาณว่า
+                                จะประพฤติปฏิบัติตนเป็นพลเมือง ข้าราชการ พนักงานวิทยาลัยที่ดีและพลังของแผ่นดิน
+                                มีความซื่อสัตย์สุจริต เจริญรอยตามเบื้องพระยุคลบาท มุ่งมั่นแน่วแน่แก้ไขปัญหา
+                                ของประเทศชาติและประชาชน สร้างสรรค์คุณประโยชน์แก่แผ่นดิน
+                                และดำเนินชีวิตโดยยึดมั่น ในหลักธรรมคำสอนแห่งศาสนา
+                                ตามแนวทางในพระบรมราโชวาทตลอดไป
+                                ด้วยเกล้าด้วยกระหม่อม ขอเดชะ</p>
+                            <p class="text-body font-weight-light mt-4 text-end">
+                                <span class="text-decoration-underline">คำถวายสัตย์ปฏิญาณ วิทยาลัยเทคนิคตราด</span>
+                                <a href="https://www.trattc.ac.th/" target="_blank"
+                                    class="text-primary text-decoration-none font-weight-bolder">หน้าแรก</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="row mb-2">
+                <div class="col-md-10 mx-auto">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h4 class="card-title text-center"><span
+                                    class="badge rounded-pill text-white text-bg-primary">คำถวายสัตย์ปฏิญาณ</span></h4>
+                        </div>
+        
+                        <div class="card-body">
+                            <table id="myTable" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ลำดับ</th>
+                                        <th scope="col">รายชื่อผู้ถวายคำสัตย์ปฏิญาณ</th>
+                                        <th scope="col">หน่วยงาน</th>
+                                        <th scope="col">ตำแหน่ง</th>
+                                        <th scope="col">แก้ไข</th>
+                                        <th scope="col">ลบ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% let i=0 %>
+                                        <% posts.forEach(post=> { %>
+                                            <tr>
+                                                <td>
+                                                    <%= i=i+1 %>
+                                                </td>
+                                                <td>
+                                                    <%= post.user_id %>
+                                                </td>
+                                                <td>
+                                                    <%= post.title %>
+                                                </td>
+                                                <td>
+                                                    <%= post.content %>
+                                                </td>
+                                                <td><a href="/api/posts/edit/<%= post.id %>" class="text-decoration-none">
+                                                        <span
+                                                            class="badge shadow rounded-pill text-white text-bg-success">แก้ไข</span>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <form action="/api/posts/delete/<%= post.id %>" class="text-decoration-none"
+                                                        method="POST">
+                                                        <a href="/api/posts/delete/<%= post.id %>">
+                                                            <button type="submit"
+                                                                class="btn badge shadow rounded-pill text-white text-bg-danger">
+                                                                ลบข้อมูล
+                                                            </button>
+                                                        </a>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                </tbody>
+                            </table>
+                            <p class="text-body font-weight-light mt-4 text-center">คำถวายสัตย์ปฏิญาณ
+                                <a href="/api/posts/create" target="_blank"
+                                    class="text-primary text-decoration-none font-weight-bolder">ลงนาม</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+    <%- include('../dashboard/partials/admin-script') %>
+</body>
+
+</html>

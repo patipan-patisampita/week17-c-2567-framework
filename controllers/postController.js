@@ -7,7 +7,8 @@ const getPosts = async (req, res) => {
     try {
         const posts = await Post.findPostAll(Number(page), Number(limit))
         console.log(posts)
-        return res.status(200).send(posts)
+        // return res.status(200).send(posts)
+        res.render('posts/adminPost', { posts })
     } catch (error) {
         return res.status(500).json({ status: false, message: 'Failed to retrieve posts.', error })
     }
