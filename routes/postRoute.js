@@ -17,6 +17,7 @@ router.get('/:id', verifyToken, authorizeRoles(['Admin', 'User']), postControlle
 router.put('/:id', verifyToken, authorizeRoles(['Admin', 'User']), postController.updatePost)
 
 //5.DELETE: Method DELETE, Delete post: http://localhost:3000/api/posts/:id
-router.delete('/:id', verifyToken, authorizeRoles(['Admin']), postController.deletePost)
+// router.delete('/delete/:id', verifyToken, authorizeRoles(['Admin']), postController.deletePost)
+router.post('/delete/:id', verifyToken, authorizeRoles(['Admin']), postController.deletePost)
 
 module.exports = router

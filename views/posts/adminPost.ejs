@@ -13,7 +13,7 @@
             <div class="row mb-5">
                 <div class="col-md-10 mx-auto">
                     <div class="card shadow">
-                        <img src="../images/king.png" class="card-img-top" alt="...">
+                        <img src="http://www.trattc.ac.th:3009/images/king.png" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h4 class="card-title"><span
                                     class="badge rounded-pill text-white text-bg-primary">คำถวายสัตย์ปฏิญาณ</span></h4>
@@ -77,11 +77,9 @@
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <form action="/api/posts/delete/<%= post.id %>" class="text-decoration-none"
-                                                        method="POST">
+                                                    <form action="/api/posts/delete/<%= post.id %>" class="text-decoration-none" method="POST">
                                                         <a href="/api/posts/delete/<%= post.id %>">
-                                                            <button type="submit"
-                                                                class="btn badge shadow rounded-pill text-white text-bg-danger">
+                                                            <button type="submit" class="btn badge shadow rounded-pill text-white text-bg-danger">
                                                                 ลบข้อมูล
                                                             </button>
                                                         </a>
@@ -92,8 +90,7 @@
                                 </tbody>
                             </table>
                             <p class="text-body font-weight-light mt-4 text-center">คำถวายสัตย์ปฏิญาณ
-                                <a href="/api/posts/create" target="_blank"
-                                    class="text-primary text-decoration-none font-weight-bolder">ลงนาม</a>
+                                <a href="/api/posts/create" target="_blank" class="text-primary text-decoration-none font-weight-bolder">ลงนาม</a>
                             </p>
                         </div>
                     </div>

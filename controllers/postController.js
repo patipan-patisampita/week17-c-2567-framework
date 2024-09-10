@@ -52,17 +52,15 @@ const updatePost = async (req, res) => {
     }
 }
 
-
 //5.DELETE: Delete a post : http://localhost:3000/api/posts/:id
 const deletePost = async (req, res) => {
     const { id } = req.params
     try {
         await Post.deletePost(id)
-        return res.status(200).json({ status: true, message: 'Deleted posts successfully!' })
-
+        // return res.status(200).json({ status: true, message: 'Deleted posts successfully!' })
+        return res.redirect('/api/posts')
     } catch (error) {
         return res.status(500).json({ status: false, message: 'Error deleted posts', error })
-
     }
 }
 
