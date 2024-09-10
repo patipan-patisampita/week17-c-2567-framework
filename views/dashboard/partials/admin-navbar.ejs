@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg navbar-dark shadow" style="background-color: blueviolet;">
+    <div class="container sarabun-regular">
+        <a class="navbar-brand" href="/api/auth/dashboard">Admin</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/api/auth/dashboard">หน้าหลัก</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/api/auth/dashboard" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        การจัดการ
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/profile">ประวัติส่วนตัว</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/api/auth/logout">ออกจากระบบ</a></li>
+                    </ul>
+                </li>
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        ถวายสัตย์ปฏิญาณ
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/api/posts">ผู้ลงนามถวายสัตย์ปฏิญาณ</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/api/auth/logout">ออกจากระบบ</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact">ติดต่อเรา</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/auth/dashboard" target="_blank">หน้าแรก</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
